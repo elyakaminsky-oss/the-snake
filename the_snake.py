@@ -41,6 +41,7 @@ clock = pygame.time.Clock()
 
 class GameObject:
     """Базовый класс игровых объектов."""
+
     def __init__(self):
         """Задаёт начальные положение и цвет игрового объекта."""
         self.position = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
@@ -53,6 +54,7 @@ class GameObject:
 
 class Apple(GameObject):
     """Задаёт цвет и положение яблока на игровом поле."""
+
     def __init__(self):
         """Создаёт яблоко с цветом и случайной позицией."""
         super().__init__()
@@ -74,6 +76,7 @@ class Apple(GameObject):
 
 class Snake(GameObject):
     """Хранит длину, положение и направление движения змейки."""
+
     def __init__(self):
         """Задаёт начальное состояние змейки."""
         super().__init__()
@@ -108,16 +111,16 @@ class Snake(GameObject):
 
     def draw(self):
         """Отрисовывает сегменты змейки и очищает клетку старого хвоста."""
+        if self.last:
+            last_rect = pygame.Rect(self.last, (GRID_SIZE, GRID_SIZE))
+            pygame.draw.rect(screen, BOARD_BACKGROUND_COLOR, last_rect)
         for position in self.positions[:-1]:
-            rect = (pygame.Rect(position, (GRID_SIZE, GRID_SIZE)))
+            rect = pygame.Rect(position, (GRID_SIZE, GRID_SIZE))
             pygame.draw.rect(screen, self.body_color, rect)
             pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
         head_rect = pygame.Rect(self.positions[0], (GRID_SIZE, GRID_SIZE))
         pygame.draw.rect(screen, self.body_color, head_rect)
         pygame.draw.rect(screen, BORDER_COLOR, head_rect, 1)
-        if self.last:
-            last_rect = pygame.Rect(self.last, (GRID_SIZE, GRID_SIZE))
-            pygame.draw.rect(screen, BOARD_BACKGROUND_COLOR, last_rect)
 
     def reset(self):
         """Возвращает змейку к начальным параметрам."""
